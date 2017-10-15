@@ -1,0 +1,61 @@
+{% extends "clouds/base.html" %}
+{% load static %}
+{% block title %}
+Charity Data Wordcloud
+{% endblock title %} 
+
+{% block content %}
+
+  Select Local Authority: <select id="LASelector">
+    {% for LA in area_names %}
+      <option value="{{ LA }}"> {{ LA }} </option>
+    {% endfor %}
+  </select> <br />
+  Select weighting type: <select id="weightSelector">
+    <option value="charity_count">Total number of charities</option>
+    <option value="subsidiary_count">Total number of charities and subsidiaries</option>
+    <option value="income">Charity income in 2015</option>
+    <option value="expend">Charity expenditure in 2015</option>
+  </select> <br>
+  <svg class="container" id="imageContainer" viewbox="-809 -500 1618 1000">
+    <g class="cloudcontainer" id="wordCloud"></g>
+  </svg>
+
+  <script src="{% static 'js/d3.min.js' %}"></script>
+  <script src="{% static 'js/cloud.min.js' %}"></script>
+  <script type="text/javascript">
+    convertFields = function(data){
+      return data.forEach(function (d) {
+        d.subsidiary_count = 0.0+d.subsidiary_count
+        d.charity_count = 0.0+d.charity_count
+        d.income = 0.0+d.income
+        d.expense = 0.0+d.expense
+        d.active = true
+      });
+    }
+
+    nestLA = d3.nest()
+               .key(function(d) { return d.aootype;})
+               .key(function(d) { return d.aooname;})
+               ;
+
+    nestArea = d3.nest()
+               .key(function(d) { return d.aootype;});
+
+    var test = d3.csv("{% static 'data/la_words.csv' %}", convertFields)
+
+
+    var la_words = nestLA
+      .key(function(d) { return d.word;})
+      .object(d3.csv("{% static 'data/la_words.csv' %}", convertFields));
+    console.log(la_words);
+    var la_counts = nestLA
+      .object(d3.csv("{% static 'data/la_counts.csv' %}", convertFields));
+    var area_counts = nestArea
+      .object(d3.csv("{% static 'data/area_counts.csv' %}", convertFields));
+    var area_words = nestArea
+      .key(function(d) { return d.word;})
+      .object(d3.csv("{% static 'data/area_words.csv' %}", convertFields));
+  </script>
+  <script src="{% static 'js/first snippet.js' %}"></script>
+{% endblock content %}
