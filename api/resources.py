@@ -1,26 +1,17 @@
+from tastypie import fields
 from tastypie.resources import ModelResource
 from .models import *
 
 
-class LACountResource(ModelResource):
+class WordDataResource(ModelResource):
     class Meta:
-        queryset = LACount.objects.all()
-        resource_name = 'LACount'
+        queryset = WordData.objects.all()
+        limit = 0
+        filtering = {'aootype': ALL,
+                     'aookey': ALL,
+                     'aooname': ALL,
+                     'calc_type': ALL, }
+        ordering = ['expend', 'income', 'charity_count', 'subsidiary_count']
 
-
-class AreaCountResource(ModelResource):
-    class Meta:
-        queryset = AreaCount.objects.all()
-        resource_name = 'AreaCount'
-
-
-class LAWordsResource(ModelResource):
-    class Meta:
-        queryset = LAWords.objects.all()
-        resource_name = 'LAWords'
-
-
-class AreaWordsResource(ModelResource):
-    class Meta:
-        queryset = AreaWords.objects.all()
-        resource_name = 'AreaWords'
+    def dehydrate_calc_type(self, bundle):
+        return(WordData.calc_type_strings[bundle.data['calc_type']])
