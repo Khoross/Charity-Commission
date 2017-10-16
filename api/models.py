@@ -11,5 +11,5 @@ class WordData(models.Model):
     income = models.FloatField(blank=True, null=True)
     charity_count = models.IntegerField()
     subsidiary_count = models.IntegerField()
-    _calc_type = models.SmallIntegerField(db_column='calc_type')
-    calc_types=["tf.idf", "Relative weighted frequency", "Weighted frequency", "Total"]
+    calc_type = models.SmallIntegerField(db_column='calc_type')
+    calc_type_strings=["tf.idf", "Relative weighted frequency", "Weighted frequency", "Total"]
