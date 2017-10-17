@@ -12,8 +12,7 @@ convertFields = function(data){
 
 nestLA = d3.nest()
            .key(function(d) { return d.aootype;})
-           .key(function(d) { return d.aooname;})
-           ;
+           .key(function(d) { return d.aooname;});
 
 nestArea = d3.nest()
            .key(function(d) { return d.aootype;});
@@ -30,8 +29,16 @@ var area_words = nestArea
   .key(function(d) { return d.word;})
   .object(d3.csv("/static/data/area_words.csv", convertFields));
 
-function make_cloud(){
+function make_cloud(data){
 
+//this stuff can be removed
+//we are being given a slimmed down result set
+//the result set will be in order
+//still need to trim down the number of words shown
+//build scale ect.
+//this will be called with new data whenever the filters change
+//because I'm awesome
+//TODO: fix
   var LA = document.getElementById('LASelector').value;
   var weighting = document.getElementById('weightSelector').value;
   var wordsection = Object.keys(la_words['B'][LA]);
@@ -122,5 +129,15 @@ function make_cloud(){
   //location selection will be using .nest
   //not certain the data mutability will work. Worth a test.
 }
-
-make_cloud();
+$(document).ready(function(){
+  $(".filter").on('change', function(){
+    var area = $("#LASelecto>option:selected").text();
+    var weight = $("#WeightSelecto>option:selected").text();
+    $(window).location.hash = "area=${area}&weight=${weight}";
+    //change this so that it works as an API query
+  })
+  $(window).on('hashchange', function(){
+    d3.json("../api/v1/?" + $(window).location.hash,
+      make_cloud)
+  })
+})
