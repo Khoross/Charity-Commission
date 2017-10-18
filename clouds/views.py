@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from api.models import LACount
+from api.models import WordData
 
 # Create your views here.
 
@@ -11,8 +11,13 @@ def index(request):
 
 
 def cloud(request):
-    context = {'area_names': LACount.objects
+    context = {'areanames': WordData.objects
                                     .filter(aootype='B')
                                     .order_by('aooname')
-                                    .values_list('aooname', flat=True)}
+                                    .values('aooname', 'aookey')
+                                    .distinct()
+               'algs':      WordData.objects
+                                    .order_by('calc_type')
+                                    .values('calc_type', 'calc_name')
+                                    .distinct()
     return render(request, 'clouds/wordcloud.html', context)
