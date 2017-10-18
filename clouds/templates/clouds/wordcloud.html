@@ -1,3 +1,4 @@
+{% csrf_token %}
 {% extends "clouds/base.html" %}
 {% load static %}
 {% block title %}
@@ -20,7 +21,8 @@ Charity Data Wordcloud
   <svg class="container" id="imageContainer" viewbox="-809 -500 1618 1000">
     <g class="cloudcontainer" id="wordCloud"></g>
   </svg>
-
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="{% static 'js/d3.min.js' %}"></script>
   <script src="{% static 'js/cloud.min.js' %}"></script>
   <script src="{% static 'js/first snippet.js' %}"></script>
