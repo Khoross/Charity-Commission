@@ -109,6 +109,7 @@ function make_cloud(data){
     wordcloud
       .transition()
         .duration(1e3)
+        .style("opacity", 1)
         .attr("transform", function(d) {
           return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
         });
