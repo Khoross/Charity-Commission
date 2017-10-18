@@ -5,6 +5,7 @@ from .models import *
 
 class WordDataResource(ModelResource):
     hidden = fields.BooleanField(readonly=True)
+    idx = fields.IntegerField(readonly=True)
     class Meta:
         queryset = WordData.objects.all()
         limit = 0
@@ -12,18 +13,23 @@ class WordDataResource(ModelResource):
                      'aookey': ALL,
                      'aooname': ALL,
                      'calc_type': ALL,
+                     'calc_name': ALL,
                      'word': ALL}
         ordering = ['expend', 'income', 'charity_count', 'subsidiary_count']
-
-    def dehydrate_calc_type(self, bundle):
-        return(WordData.calc_type_strings[bundle.data['calc_type']])
     
     def dehydrate_hidden(self, bundle):
-        return(bundle.request
-                     .session
-                     .get(bundle.data['aootype'], {})
-                     .get(bundle.data['aookey'], {})
-                     .get(bundle.data['word'], False))
+        return([bundle.request
+                      .session
+                      .get(aootype, {})
+                      .get(aookey, {})
+                      .get(word, False)
+               for aootype, aookey, word in 
+                zip(bundle.data['aootype'],
+                    bundle.data['aookey'],
+                    bundle.data['word'])])
+    
+    def dehydrate_idx(self, bundle):
+        return([*range(length(bundle.data['word']))])
     
     def dehydrate(self, bundle):
         if hasattr(bundle.request, 'GET'):
