@@ -7,18 +7,18 @@ Charity Data Wordcloud
 
 {% block content %}
 
-  Select Local Authority: <select id="LASelector">
+  Select Local Authority: <select id="LASelector" class="filter">
     {% for LA in area_names %}
       <option value="{{ LA.aookey }}"> {{ LA.aooname }} </option>
     {% endfor %}
   </select> <br>
-  Select weighting type: <select id="weightSelector">
+  Select weighting type: <select id="weightSelector" class="filter">
     <option value="charity_count">Total number of charities</option>
     <option value="subsidiary_count">Total number of charities and subsidiaries</option>
     <option value="income">Charity income in 2015</option>
     <option value="expend">Charity expenditure in 2015</option>
   </select> <br>
-  Select algorithm: <select id="algSelector">
+  Select algorithm: <select id="algSelector" class="filter">
     {% for alg in algs %}
       <option value="{{ alg.calc_type }}"> {{ alg.calc_name }} </option>
     {% endfor %}
