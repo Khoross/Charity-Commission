@@ -12,4 +12,5 @@ class WordData(models.Model):
     charity_count = models.IntegerField()
     subsidiary_count = models.IntegerField()
     calc_type = models.SmallIntegerField(db_column='calc_type')
+    calc_name = models.CharField(max_length=50)
     calc_type_strings=["tf.idf", "Relative weighted frequency", "Weighted frequency", "Total"]
