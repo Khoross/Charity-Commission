@@ -9,15 +9,20 @@ Charity Data Wordcloud
 
   Select Local Authority: <select id="LASelector">
     {% for LA in area_names %}
-      <option value="{{ LA.key }}"> {{ LA.name }} </option>
+      <option value="{{ LA.aookey }}"> {{ LA.aooname }} </option>
     {% endfor %}
-  </select> <br />
+  </select> <br>
   Select weighting type: <select id="weightSelector">
     <option value="charity_count">Total number of charities</option>
     <option value="subsidiary_count">Total number of charities and subsidiaries</option>
     <option value="income">Charity income in 2015</option>
     <option value="expend">Charity expenditure in 2015</option>
   </select> <br>
+  Select algorithm: <select id="algSelector">
+    {% for alg in algs %}
+      <option value="{{ alg.calc_type }}"> {{ alg.calc_name }} </option>
+    {% endfor %}
+  </select>
   <svg class="container" id="imageContainer" viewbox="-809 -500 1618 1000">
     <g class="cloudcontainer" id="wordCloud"></g>
   </svg>
