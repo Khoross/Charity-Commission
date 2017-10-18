@@ -24,5 +24,6 @@ v1_api.register(WordDataResource())
 urlpatterns = [
     url(r'^clouds/', include('clouds.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'api/', include(v1_api.urls)),
+    url(r'^api/', include(v1_api.urls)),
+    url(r'^session/', include('api.urls),
 ]
