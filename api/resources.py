@@ -22,6 +22,7 @@ class WordDataResource(ModelResource):
         return(bundle.request
                      .session
                      .get(bundle.data['aootype'], {})
+                     .get(bundle.data['aookey'], {})
                      .get(bundle.data['word'], False))
     
     def dehydrate(self, bundle):
